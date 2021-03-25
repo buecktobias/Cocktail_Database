@@ -174,6 +174,9 @@ def insert_glass(cursor, glass_name):
     command = f"INSERT INTO glas(name) VALUES ('{glass_name}')"
     cursor.execute(command)
 
+def insert_ingredient(cursor, ingredient_name):
+    command = f"INSERT INTO Spirituosen(name) VALUES ('{ingredient_name}')"
+    cursor.execute(command)
 
 def insert_cocktail_names(c, count):
     cocktail_names = cocktail_api.get_cocktail_names(count)
@@ -187,11 +190,16 @@ def insert_glass_names(c, count):
     for glas in glasses:
         insert_glass(c, glas)
 
+def insert_ingredient_names(c, count):
+    ing = cocktail_api.get_ingredients(count)
+    for i in ing:
+        insert_ingredient(c, i)
+
 
 if __name__ == '__main__':
     conn = sqlite3.connect("new_cocktails.db")
     c = conn.cursor()
-    insert_glass_names(c, 100)
+    insert_ingredient_names(c, 40)
     conn.commit()
     c.close()
     conn.close()

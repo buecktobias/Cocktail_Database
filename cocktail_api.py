@@ -43,6 +43,20 @@ def get_cocktail_glass(session):
         return ""
     return glass
 
+
+def get_cocktail_ingredients(session):
+    ingredients = []
+    cocktail = get_random_cocktail(session)
+    ingredient_string = "strIngredient"
+    if cocktail is not None:
+        for i in range(1, 15):
+            ingredients.append(cocktail[ingredient_string + str(i)])
+    ingredients = list(set(ingredients))
+    if None in ingredients:
+        ingredients.remove(None)
+    return ingredients
+
+
 def get_glasses(count):
     names = []
     session = requests.Session()
@@ -54,6 +68,15 @@ def get_glasses(count):
     return list(set(names))
 
 
+def get_ingredients(count):
+    names = []
+    session = requests.Session()
+    for i in range(count):
+        name = get_cocktail_ingredients(session)
+        name = list(map(lambda x: x.replace("\'", ""), name))
+        names.extend(name)
+    return list(set(names))
+
 def get_cocktail_names(count):
     names = []
     session = requests.Session()
@@ -63,7 +86,7 @@ def get_cocktail_names(count):
         names.append(name)
     return names
 
-def get_ingredients():
 
 if __name__ == '__main__':
-    print(get_glasses(40))
+    session = requests.Session()
+    print(get_ingredients(10))
